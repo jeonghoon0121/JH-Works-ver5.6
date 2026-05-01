@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JH Works</title>
+    <link rel="stylesheet" th:href="@{/css/styles.css}">
+</head>
+<body>
+
+<header th:replace="~{layout/header :: headerFragment}"></header>
+
+<main>
+    <aside th:replace="~{layout/aside :: asideFragment}"></aside>
+
+    <article>
+        <div layout:fragment="content"></div>
+    </article>
+</main>
+
+<footer th:replace="~{layout/footer :: footerFragment}"></footer>
+<th:block layout:fragment="script"></th:block>
+</body>
+</html>

@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/defaultLayout}">
+
+<head>
+    <title>시스템 설계 및 DB - Web Log</title>
+</head>
+
+<body>
+<div layout:fragment="content">
+    <div class="architecture-container" style="padding: 30px;">
+
+        <div class="page-header" style="margin-bottom: 30px; border-bottom: 2px solid #e2e8f0; padding-bottom: 15px;">
+            <h1 style="font-size: 28px; font-weight: 800; color: #1e293b;">🏗️ 시스템 설계 & DB</h1>
+            <p style="color: #64748b; margin-top: 5px;">Web Log 시스템의 전체 구조와 데이터베이스 모델링 결과입니다.</p>
+        </div>
+
+        <div class="architecture-content" style="display: flex; flex-direction: column; gap: 40px;">
+
+            <div class="arch-card" style="background: white; padding: 20px; border-radius: 15px; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1); border: 1px solid #e2e8f0;">
+                <h3 style="font-size: 20px; color: #1e293b; margin-bottom: 15px; padding-left: 10px; border-left: 4px solid #3b82f6;">
+                    1. 시스템 아키텍처 (System Architecture)
+                </h3>
+                <div style="background-color: #f8fafc; border-radius: 10px; padding: 15px; text-align: center;">
+                    <img th:src="@{/images/설계1.jpg}" alt="시스템 설계 1"
+                         style="max-width: 100%; height: auto; border-radius: 8px; border: 1px solid #f1f5f9;">
+                </div>
+            </div>
+
+            <div class="arch-card" style="background: white; padding: 20px; border-radius: 15px; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1); border: 1px solid #e2e8f0;">
+                <h3 style="font-size: 20px; color: #1e293b; margin-bottom: 15px; padding-left: 10px; border-left: 4px solid #3b82f6;">
+                    2. 데이터베이스 설계 (ER-Diagram)
+                </h3>
+                <div style="background-color: #f8fafc; border-radius: 10px; padding: 15px; text-align: center;">
+                    <img th:src="@{/images/설계2.jpg}" alt="시스템 설계 2"
+                         style="max-width: 100%; height: auto; border-radius: 8px; border: 1px solid #f1f5f9;">
+                </div>
+            </div>
+
+        </div>
+        <div style="height: 50px;"></div>
+    </div>
+</div> </body>
+</html>

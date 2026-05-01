@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<aside th:fragment="asideFragment">
+    <button th:onclick="|location.href='/post'|">게시글목록</button>
+    <span class="nav-label">Boards</span>
+    <div class="nav-divider"></div>
+    <div th:if="${boardList != null}" th:each="board : ${boardList}">
+        <button th:onclick="|location.href='/board/' + [[${board.boardId}]]|"
+                th:text="${board.name}">
+        </button>
+    </div>
+</aside>
+</html>

@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{layout/defaultLayout :: head}"></head>
+<body>
+<header th:replace="~{layout/defaultLayout :: header}"></header>
+
+<main>
+    <aside th:replace="~{layout/defaultLayout :: aside}"></aside>
+
+    <article>
+        <div class="post-list-container">
+            <h1 style="font-size: 24px; font-weight: 800; margin-bottom: 25px;">📋 전체 게시글 목록</h1>
+
+            <div class="list-controls-wrapper" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+
+                <form th:action="@{/post/list}" method="get" style="display: flex; gap: 8px;">
+                    <input type="text" name="keyword" placeholder="검색어를 입력하세요"
+                           style="padding: 10px 15px; border: 1px solid var(--border-color); border-radius: 8px; width: 250px;">
+                    <button type="submit" class="btn-action btn-update" style="padding: 10px 20px;">검색</button>
+                </form>
+
+                <button class="btn-action btn-add" th:onclick="|location.href='/post/write'|">글쓰기</button>
+            </div>
+
+            <table class="board-table" style="width: 100%; border-collapse: collapse; background: white; border-radius: 12px; overflow: hidden; border: 1px solid var(--border-color);">
+                <thead style="background: #f8fafc; border-bottom: 2px solid var(--border-color);">
+                <tr>
+                    <th style="padding: 15px; width: 80px; text-align: center;">번호</th>
+                    <th style="padding: 15px; text-align: left;">제목</th>
+                    <th style="padding: 15px; width: 120px; text-align: center;">작성자</th>
+                    <th style="padding: 15px; width: 150px; text-align: center;">작성일</th>
+                    <th style="padding: 15px; width: 80px; text-align: center;">조회</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="post : ${postList}"
+                    style="border-bottom: 1px solid var(--border-color); transition: background 0.2s; cursor: pointer;"
+                    th:onmouseover="this.style.background='#f1f5f9'"
+                    th:onmouseout="this.style.background='white'"
+                    th:onclick="|location.href='/post/detail/${post.postId}'|">
+
+                    <td style="padding: 15px; text-align: center; color: #64748b;" th:text="${post.postId}"></td>
+
+                    <td style="padding: 15px; font-weight: 500;">
+                        <a th:href="@{/post/detail/{id}(id=${post.postId})}" th:text="${post.title}" style="text-decoration: none; color: inherit;"></a>
+                    </td>
+
+                    <td style="padding: 15px; text-align: center;">
+                        <span class="author-badge" th:text="${post.authorId}"
+                              style="background: #e2e8f0; color: #475569; padding: 4px 10px; border-radius: 20px; font-size: 12px; font-weight: 600;"></span>
+                    </td>
+
+                    <td style="padding: 15px; text-align: center; color: #94a3b8; font-size: 14px;"
+                        th:text="${#temporals.format(post.createdAt, 'yyyy-MM-dd')}"></td>
+
+                    <td style="padding: 15px; text-align: center; font-weight: 600;" th:text="${post.viewCount}"></td>
+                </tr>
+
+                <tr th:if="${#lists.isEmpty(postList)}">
+                    <td colspan="5" style="padding: 50px; text-align: center; color: #94a3b8;">
+                        등록된 게시글이 없습니다.
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </article>
+</main>
+
+<footer th:replace="~{layout/defaultLayout :: footer}"></footer>
+
+<style>
+    .post-list-container { padding: 20px; }
+    .board-table th { color: #475569; font-size: 14px; text-transform: uppercase; letter-spacing: 0.05em; }
+    /* 행 전체에 포인터 표시 */
+    .board-table tbody tr { cursor: pointer; }
+</style>
+</body>
+</html>

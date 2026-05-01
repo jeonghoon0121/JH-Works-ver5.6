@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{layout/defaultLayout :: head}">
+    <title>기술 스택 - Web Log</title>
+</head>
+
+<body>
+<header th:replace="~{layout/defaultLayout :: header}"></header>
+
+<main>
+    <aside th:replace="~{layout/defaultLayout :: aside}"></aside>
+
+    <article>
+        <div class="tech-stack-container" style="padding: 30px;">
+
+            <div class="page-header" style="margin-bottom: 30px; border-bottom: 2px solid #e2e8f0; padding-bottom: 15px;">
+                <h1 style="font-size: 28px; font-weight: 800; color: #1e293b;">🛠️ Tech Stack</h1>
+                <p style="color: #64748b; margin-top: 5px;">프로젝트 구현에 사용된 주요 기술 및 개발 환경입니다.</p>
+            </div>
+
+            <div class="tech-card" style="background: white; padding: 20px; border-radius: 15px; box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1); border: 1px solid #e2e8f0;">
+                <div style="margin-bottom: 20px; display: flex; align-items: center; gap: 10px;">
+                    <div style="width: 5px; height: 25px; background-color: var(--accent-color); border-radius: 10px;"></div>
+                    <h3 style="font-size: 20px; color: #1e293b; margin: 0;">기술 구성도 (Tech Stack Diagram)</h3>
+                </div>
+
+                <div class="img-wrapper" style="text-align: center; background-color: #f8fafc; border-radius: 10px; padding: 10px;">
+                    <img th:src="@{/images/기술1.jpg}" alt="기술 스택"
+                         style="max-width: 100%; height: auto; border-radius: 5px;">
+                </div>
+            </div>
+
+            <div style="margin-top: 40px; display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+                <div style="background: #f1f5f9; padding: 20px; border-radius: 10px;">
+                    <h4 style="color: var(--primary-color); margin-bottom: 10px;">Backend</h4>
+                    <p style="font-size: 14px; color: #475569;">Java 17, Spring Boot 3.x, MyBatis를 활용하여 안정적인 비즈니스 로직을 구축했습니다.</p>
+                </div>
+                <div style="background: #f1f5f9; padding: 20px; border-radius: 10px;">
+                    <h4 style="color: var(--primary-color); margin-bottom: 10px;">Database & DevOps</h4>
+                    <p style="font-size: 14px; color: #475569;">MySQL을 통한 데이터 관리와 Gradle을 이용한 의존성 관리 및 빌드 환경을 구축했습니다.</p>
+                </div>
+            </div>
+
+        </div>
+    </article>
+</main>
+
+<footer th:replace="~{layout/defaultLayout :: footer}"></footer>
+</body>
+</html>

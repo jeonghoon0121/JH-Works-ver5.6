@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{layout/defaultLayout :: head}"></head>
+<body>
+<header th:replace="~{layout/defaultLayout :: header}"></header>
+
+<main>
+    <aside th:replace="~{layout/defaultLayout :: aside}"></aside>
+
+    <article>
+        <form class="board-form" th:action="@{/post/delete}" th:object="${post}" method="post"
+              onsubmit="return confirm('정말로 이 게시글을 삭제하시겠습니까?\n삭제된 글은 절대 복구할 수 없습니다.');">
+
+            <h2 style="color: #ef4444;">게시글 삭제</h2>
+            <p class="board-desc">게시글 번호와 비밀번호가 일치해야 영구 삭제가 가능합니다.</p>
+
+            <div class="form-group" style="background-color: #fff5f5; padding: 20px; border-radius: 12px; border: 1px solid #feb2b2;">
+                <label for="postId" style="color: #c53030;">삭제할 게시글 번호 (ID)</label>
+                <input type="number" th:field="*{postId}" id="postId" placeholder="삭제할 글 번호를 입력하세요" required
+                       style="background-color: white; border-color: #feb2b2; focus-border-color: #ef4444;" />
+            </div>
+
+            <div style="display: flex; gap: 20px; margin-top: 20px;">
+                <div class="form-group" style="flex: 1;">
+                    <label for="authorId">작성자 아이디 확인</label>
+                    <input type="text" th:field="*{authorId}" placeholder="아이디 입력" required />
+                </div>
+                <div class="form-group" style="flex: 1;">
+                    <label for="password">비밀번호 확인</label>
+                    <input type="password" th:field="*{password}" placeholder="비밀번호 입력" required />
+                </div>
+            </div>
+
+            <div style="margin-top: 20px; padding: 15px; background-color: #fef2f2; border-radius: 8px; border-left: 4px solid #ef4444;">
+                <p style="font-size: 14px; color: #b91c1c; font-weight: 600; margin: 0;">
+                    ⚠️ 주의: [게시글 삭제] 버튼을 누르면 즉시 데이터가 삭제되며 복구가 불가능합니다.
+                </p>
+            </div>
+
+            <div style="display: flex; gap: 10px; margin-top: 30px;">
+                <button type="button" class="btn-action btn-update" style="flex: 1; padding: 15px;" onclick="history.back()">삭제 취소</button>
+                <button type="submit" class="btn-action btn-delete" style="flex: 2; height: 55px; font-size: 16px; margin-top: 0;">
+                    게시글 영구 삭제
+                </button>
+            </div>
+        </form>
+    </article>
+</main>
+
+<footer th:replace="~{layout/defaultLayout :: footer}"></footer>
+</body>
+</html>

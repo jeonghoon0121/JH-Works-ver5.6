@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{layout/defaultLayout :: head}"></head>
+<body>
+<header th:replace="~{layout/defaultLayout :: header}"></header>
+
+<main>
+    <aside th:replace="~{layout/defaultLayout :: aside}"></aside>
+
+    <article>
+        <div class="board-controls-wrapper">
+            <div class="action-buttons">
+                <button class="btn-action btn-update" th:onclick="|location.href='@{/board/add}'|">게시판 추가</button>
+                <button class="btn-action btn-add" th:onclick="|location.href='@{/board/update}'|">게시판 수정</button>
+                <button class="btn-action btn-delete" th:onclick="|location.href='@{/board/delete}'|">게시판 삭제</button>
+            </div>
+        </div>
+
+        <form th:action="@{/board/update}" th:object="${board}" method="post" class="board-form">
+            <h2>게시판 정보 수정</h2>
+            <p class="board-desc">수정할 게시판의 ID를 입력하고 새로운 정보를 입력하세요.</p>
+
+            <div class="form-group" style="background-color: #f8fafc; padding: 15px; border-radius: 8px; border: 1px dashed #cbd5e1;">
+                <label for="boardId">수정 대상 게시판 ID (필수)</label>
+                <input type="number" th:field="*{boardId}" id="boardId" placeholder="예: 1" required />
+            </div>
+
+            <div class="form-group">
+                <label for="name">변경할 이름</label>
+                <input type="text" th:field="*{name}" id="name" placeholder="새로운 게시판 이름" />
+            </div>
+
+            <div class="form-group">
+                <label for="description">변경할 설명</label>
+                <input type="text" th:field="*{description}" id="description" placeholder="새로운 게시판 설명" />
+            </div>
+
+            <div class="checkbox-group">
+                <label><input type="checkbox" th:field="*{userActive}" /> 사용자 활성 여부</label>
+                <label><input type="checkbox" th:field="*{adminActive}" /> 관리자 활성 여부</label>
+            </div>
+
+            <button type="submit" class="btn-submit">정보 업데이트 하기</button>
+        </form>
+    </article>
+</main>
+
+<footer th:replace="~{layout/defaultLayout :: footer}"></footer>
+</body>
+</html>

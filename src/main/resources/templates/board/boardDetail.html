@@ -22,11 +22,6 @@
                 <button type="submit" class="btn-action btn-update" style="padding: 10px 20px; border-radius: 10px; font-weight: 600;">검색</button>
             </form>
 
-            <div class="action-buttons" style="display: flex; gap: 8px;">
-                <button class="btn-action btn-add" th:onclick="|location.href='/post/add?boardId=${board.boardId}'|">글쓰기</button>
-                <button class="btn-action btn-update" th:onclick="|location.href='/post/update'|">수정</button>
-                <button class="btn-action btn-delete" th:onclick="|location.href='/post/delete'|">삭제</button>
-            </div>
         </div>
 
         <!-- 게시글 테이블 -->

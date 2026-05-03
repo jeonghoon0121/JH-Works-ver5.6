@@ -104,12 +104,12 @@
         INSERT INTO post (
         board_id, author_id, password, ip_hash,
         attachment_url, title, content,
-        thumbnail_url, status, is_notice, is_secret, old, category
+        thumbnail_url, status, is_notice, is_secret, old, category, access_level
         )
         VALUES (
         #{boardId}, #{authorId}, #{password}, #{ipHash},
         #{attachmentUrl}, #{title}, #{content},
-        #{thumbnailUrl}, #{status}, #{notice}, #{secret}, 0, #{category}
+        #{thumbnailUrl}, #{status}, #{notice}, #{secret}, 0, #{category}, #{accessLevel}
         )
     </insert>
 

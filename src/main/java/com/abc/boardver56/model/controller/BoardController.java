@@ -4,6 +4,7 @@ import com.abc.boardver56.model.dto.BoardDTO;
 import com.abc.boardver56.model.dto.CommentDTO;
 import com.abc.boardver56.model.dto.PostDTO;
 import com.abc.boardver56.service.BoardService;
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -112,9 +113,13 @@ public class BoardController {
     }
 
     @PostMapping("/post/add")
-    public String createPost(@ModelAttribute PostDTO postDTO) {
+    public String createPost(@ModelAttribute PostDTO postDTO, HttpServletRequest request) {
 //        boardService.addPost(postDTO);
-        boardService.addPostWithFile(postDTO); // 파일 저장 + DB 저장
+        String clientIp = request.getHeader("X-Forwarded-For");
+        if (clientIp == null || clientIp.isEmpty()) {
+            clientIp = request.getRemoteAddr();
+        }
+        boardService.addPostWithFile(postDTO,clientIp); // 파일 저장 + DB 저장 + IP
         return "redirect:/board/" + postDTO.getBoardId();
     }
 

@@ -1,95 +1,70 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
-<head th:replace="~{layout/defaultLayout :: head}"></head>
-<body>
-<header th:replace="~{layout/defaultLayout :: header}"></header>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/defaultLayout}">
 
-<main>
-    <aside th:replace="~{layout/defaultLayout :: aside}"></aside>
+<div layout:fragment="content">
+    <div class="form-container">
+        <form class="board-form" th:action="@{/post/add}" th:object="${post}" method="post" enctype="multipart/form-data">
 
-    <article>
-        <div class="form-container" style="max-width: 800px; margin: 0 auto;">
-            <form class="board-form" th:action="@{/post/add}" th:object="${post}" method="post" enctype="multipart/form-data"
-                  style="background: white; padding: 40px; border-radius: 16px; border: 1px solid var(--border-color); box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);">
+            <h2 class="form-title">✍️ 새 글 작성</h2>
 
-                <h2 style="font-size: 24px; font-weight: 800; margin-bottom: 8px;">✍️ 새 글 작성</h2>
-                <p class="board-desc" style="color: #64748b; margin-bottom: 30px;">나누고 싶은 이야기를 자유롭게 적어주세요.</p>
+            <!-- 게시판 선택 -->
+            <div class="form-group">
+                <label>게시판 선택</label>
+                <select th:field="*{boardId}" required>
+                    <option value="1">TechLog</option>
+                    <option th:each="board : ${boardList}" th:if="${board.boardId != 1}"
+                            th:value="${board.boardId}" th:text="${board.name}"></option>
+                </select>
+            </div>
 
-                <!-- 게시판 선택 (아까 DB 정리로 1번 게시판만 남았으므로 1번이 기본 선택되게 둡니다) -->
-                <div class="form-group" style="margin-bottom: 20px;">
-                    <label style="display: block; font-weight: 600; margin-bottom: 8px;">게시판 선택</label>
-                    <select th:field="*{boardId}" required
-                            style="width: 100%; padding: 12px; border: 1px solid var(--border-color); border-radius: 8px; background-color: #f8fafc;">
-                        <option value="1" selected>TechLog</option>
-                        <!-- 다른 게시판이 있을 경우를 대비해 기존 로직 유지 가능 -->
-                        <option th:each="board : ${boardList}" th:if="${board.boardId != 1}"
-                                th:value="${board.boardId}" th:text="${board.name}"></option>
-                    </select>
+            <!-- 작성자 & 비밀번호 -->
+            <div class="form-row">
+                <div class="form-group">
+                    <label>작성자 아이디</label>
+                    <input type="text" th:field="*{authorId}" placeholder="아이디" required>
                 </div>
-
-                <!-- 작성자 정보 영역 -->
-                <div style="display: flex; gap: 15px; margin-bottom: 20px;">
-                    <div class="form-group" style="flex: 1;">
-                        <label style="display: block; font-weight: 600; margin-bottom: 8px;">작성자 아이디</label>
-                        <input type="text" th:field="*{authorId}" placeholder="아이디 입력" required
-                               style="width: 100%; padding: 12px; border: 1px solid var(--border-color); border-radius: 8px;" />
-                    </div>
-                    <div class="form-group" style="flex: 1;">
-                        <label style="display: block; font-weight: 600; margin-bottom: 8px;">비밀번호</label>
-                        <input type="password" th:field="*{password}" placeholder="비밀번호(최대 20자)" maxlength="20" required
-                               style="width: 100%; padding: 12px; border: 1px solid var(--border-color); border-radius: 8px;" />
-                    </div>
+                <div class="form-group">
+                    <label>비밀번호</label>
+                    <input type="password" th:field="*{password}" placeholder="비밀번호" maxlength="20" required>
                 </div>
+            </div>
 
-                <!-- ✅ 카테고리 선택 추가 (새로 추가된 부분) -->
-                <div class="form-group" style="margin-bottom: 20px;">
-                    <label style="display: block; font-weight: 600; margin-bottom: 8px;">카테고리</label>
-                    <select th:field="*{category}"
-                            style="width: 100%; padding: 12px; border: 1px solid var(--border-color); border-radius: 8px; background-color: #ffffff; cursor: pointer;">
-                        <option value="Project">Project</option>
-                        <option value="Issue">Issue Log</option>
-                        <option value="Java">Java</option>
-                        <option value="Spring">Spring</option>
-                        <option value="DB">Database</option>
-                        <option value="System">System</option>
-                        <option value="Network">Network</option>
-                        <option value="IoT">IoT</option>
-                        <option value="Embedded">Embedded</option>
-                        <option value="Hardware">Hardware</option>
-                        <option value="">카테고리 없음</option>
-                    </select>
-                </div>
+            <!-- 카테고리 -->
+            <div class="form-group">
+                <label>카테고리</label>
+                <select th:field="*{category}">
+                    <option th:each="cat : ${#strings.arraySplit('Project,Issue,Java,Springboot,DB,System,Network,test', ',')}"
+                            th:value="${cat}" th:text="${cat}"></option>
+                    <option value="">카테고리 없음</option>
+                </select>
+            </div>
 
-                <!-- 제목 입력 -->
-                <div class="form-group" style="margin-bottom: 20px;">
-                    <label style="display: block; font-weight: 600; margin-bottom: 8px;">제목</label>
-                    <input type="text" th:field="*{title}" placeholder="제목을 입력하세요" required
-                           style="width: 100%; padding: 12px; border: 1px solid var(--border-color); border-radius: 8px;" />
-                </div>
+            <!-- 제목 -->
+            <div class="form-group">
+                <label>제목</label>
+                <input type="text" th:field="*{title}" placeholder="제목을 입력하세요" required>
+            </div>
 
-                <!-- 내용 입력 -->
-                <div class="form-group" style="margin-bottom: 20px;">
-                    <label style="display: block; font-weight: 600; margin-bottom: 8px;">내용</label>
-                    <textarea th:field="*{content}" placeholder="내용을 자유롭게 작성하세요" rows="10"
-                              style="width: 100%; padding: 12px; border: 1px solid var(--border-color); border-radius: 8px; font-family: inherit; resize: vertical;"></textarea>
-                </div>
+            <!-- 내용 -->
+            <div class="form-group">
+                <label>내용</label>
+                <textarea th:field="*{content}" rows="10" placeholder="내용을 작성하세요"></textarea>
+            </div>
 
-                <!-- 첨부 파일 -->
-                <div class="form-group" style="margin-bottom: 30px;">
-                    <label style="display: block; font-weight: 600; margin-bottom: 8px;">첨부 파일</label>
-                    <input type="file" name="file" style="width: 100%; padding: 10px; border: 1px dashed var(--border-color); background: #f8fafc; border-radius: 8px;"/>
-                </div>
+            <!-- 파일 -->
+            <div class="form-group">
+                <label>첨부 파일</label>
+                <input type="file" name="file">
+            </div>
 
-                <!-- 하단 버튼 -->
-                <div style="display: flex; gap: 10px;">
-                    <button type="button" class="btn-action btn-update" style="flex: 1; padding: 15px;" onclick="history.back()">취소하기</button>
-                    <button type="submit" class="btn-submit" style="flex: 2; background: var(--primary-color); color: white; border: none; border-radius: 8px; font-weight: 700; cursor: pointer;">작성 완료</button>
-                </div>
-            </form>
-        </div>
-    </article>
-</main>
-
-<footer th:replace="~{layout/defaultLayout :: footer}"></footer>
-</body>
+            <!-- 버튼 -->
+            <div class="btn-group">
+                <button type="button" class="btn-cancel" onclick="history.back()">취소</button>
+                <button type="submit" class="btn-submit">작성 완료</button>
+            </div>
+        </form>
+    </div>
+</div>
 </html>

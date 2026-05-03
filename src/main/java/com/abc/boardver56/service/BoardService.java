@@ -96,7 +96,7 @@ public class BoardService {
     }
 
     @Transactional
-    public void addPostWithFile(PostDTO postDTO) {
+    public void addPostWithFile(PostDTO postDTO,String clientIp) {
         if (postDTO.getFile() != null && !postDTO.getFile().isEmpty()) {
             String fileName = java.util.UUID.randomUUID() + "_" + postDTO.getFile().getOriginalFilename();
             java.nio.file.Path uploadDir = java.nio.file.Paths.get("uploads");
@@ -112,6 +112,14 @@ public class BoardService {
             } catch (java.io.IOException e) {
                 throw new RuntimeException("파일 저장 실패", e);
             }
+        }
+        postDTO.setIpHash(clientIp); // Controller에서 넘어온 IP
+        if (postDTO.getStatus() == null) postDTO.setStatus("PUBLISHED"); // 또는 "NORMAL"
+        if (postDTO.getNotice() == null) postDTO.setNotice(false);
+        if (postDTO.getSecret() == null) postDTO.setSecret(false);
+        if (postDTO.getThumbnailUrl() == null) postDTO.setThumbnailUrl(""); // 공백 처리 혹은 기본 이미지
+        if (postDTO.getAccessLevel() == null) {
+            postDTO.setAccessLevel("0");
         }
         mapper.addPost(postDTO);
     }

@@ -5,14 +5,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>JH Works</title>
-    <link rel="stylesheet" th:href="@{/css/styles.css}">
+    <link rel="stylesheet" th:href="@{/css/BASE.css}">
+    <th:block layout:fragment="css"></th:block>
 </head>
 <body>
-
 <header th:replace="~{layout/header :: headerFragment}"></header>
-
+<aside th:replace="~{layout/aside :: asideFragment}"></aside>
 <main>
-    <aside th:replace="~{layout/aside :: asideFragment}"></aside>
 
     <article>
         <div layout:fragment="content"></div>

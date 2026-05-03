@@ -6,9 +6,7 @@
 
 <main>
     <aside th:replace="~{layout/defaultLayout :: aside}"></aside>
-
     <article>
-
         <form th:action="@{/board/add}" th:object="${board}" method="post" class="board-form">
             <h2>게시판 신규 등록</h2>
 

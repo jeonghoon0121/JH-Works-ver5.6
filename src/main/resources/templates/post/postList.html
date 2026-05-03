@@ -42,7 +42,7 @@
                     <td style="padding: 15px; text-align: center; color: #64748b;" th:text="${post.postId}"></td>
 
                     <td style="padding: 15px; font-weight: 500;">
-                        <a th:href="@{/post/detail/{id}(id=${post.postId})}" th:text="${post.title}" style="text-decoration: none; color: inherit;"></a>
+                        <a th:href="@{/post/{id}(id=${post.postId})}" th:text="${post.title}" style="text-decoration: none; color: inherit;"></a>
                     </td>
 
                     <td style="padding: 15px; text-align: center;">

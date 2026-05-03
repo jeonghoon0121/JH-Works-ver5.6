@@ -8,14 +8,6 @@
     <aside th:replace="~{layout/defaultLayout :: aside}"></aside>
 
     <article>
-        <div class="board-controls-wrapper">
-            <div class="action-buttons">
-                <button class="btn-action btn-update" th:onclick="|location.href='@{/board/add}'|">게시판 추가</button>
-                <button class="btn-action btn-add" th:onclick="|location.href='@{/board/update}'|">게시판 수정</button>
-                <button class="btn-action btn-delete" th:onclick="|location.href='@{/board/delete}'|">게시판 삭제</button>
-            </div>
-        </div>
-
         <form th:action="@{/board/update}" th:object="${board}" method="post" class="board-form">
             <h2>게시판 정보 수정</h2>
             <p class="board-desc">수정할 게시판의 ID를 입력하고 새로운 정보를 입력하세요.</p>

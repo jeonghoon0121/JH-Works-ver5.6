@@ -1,14 +1,16 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <header th:fragment="headerFragment">
-    <a th:href="@{/}" class="logo">JH Works</a>
 
     <div class="nav-container">
+        <button class="hamburger-btn" onclick="toggleSidebar()">☰</button>
+        <a th:href="@{/}" class="logo">JH Works</a>
         <nav>
             <a th:href="@{/about}">소개</a>
             <a th:href="@{/features}">기능</a>
             <a th:href="@{/tools}">도구</a>
             <a th:href="@{/dashboard}">대시보드</a>
+            <a href="https://github.com/jeonghoon0121/JH-Works-ver5.6">깃허브</a>
         </nav>
 
         <div class="mega-menu">

@@ -101,14 +101,14 @@ public class BoardController {
     public String getPostList(Model model) {
         model.addAttribute("boardList", boardService.findAllBoards());
         model.addAttribute("postList", boardService.findAllPosts());
-        return "board/postList";
+        return "post/postList";
     }
 
     @GetMapping("/post/add")
     public String showAddPostForm(Model model) {
         model.addAttribute("boardList", boardService.findAllBoards());
         model.addAttribute("post", new PostDTO());
-        return "board/postAddForm";
+        return "post/postAddForm";
     }
 
     @PostMapping("/post/add")
@@ -122,7 +122,7 @@ public class BoardController {
     public String showUpdatePostForm(Model model) {
         model.addAttribute("boardList", boardService.findAllBoards());
         model.addAttribute("post", new PostDTO());
-        return "board/postUpdateForm";
+        return "post/postUpdateForm";
     }
 
     @PostMapping("/post/update")
@@ -135,7 +135,7 @@ public class BoardController {
     public String showDeletePostForm(Model model) {
         model.addAttribute("boardList", boardService.findAllBoards());
         model.addAttribute("post", new PostDTO());
-        return "board/postDeleteForm";
+        return "post/postDeleteForm";
     }
 
     @PostMapping("/post/delete")
@@ -173,7 +173,7 @@ public class BoardController {
         comment.setPostId(postId);
         model.addAttribute("comment", comment);
 
-        return "board/postDetail";
+        return "post/postDetail";
     }
 
     @PostMapping("/comment/add")

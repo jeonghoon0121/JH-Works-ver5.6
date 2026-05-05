@@ -13,9 +13,10 @@
             <div class="form-group">
                 <label>게시판 선택</label>
                 <select th:field="*{boardId}" required>
-                    <option value="1">TechLog</option>
-                    <option th:each="board : ${boardList}" th:if="${board.boardId != 1}"
-                            th:value="${board.boardId}" th:text="${board.name}"></option>
+                    <option th:each="board : ${boardList}"
+                            th:value="${board.boardId}"
+                            th:text="${board.name}">
+                    </option>
                 </select>
             </div>
 

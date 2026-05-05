@@ -113,29 +113,37 @@
         )
     </insert>
 
-    <!-- 2. updatePost 수정 -->
+
     <update id="updatePost" parameterType="com.abc.boardver56.model.dto.PostDTO">
         UPDATE post
-        SET board_id = #{boardId},
-        author_id = #{authorId},
-        password = #{password},
-        ip_hash = #{ipHash},
-        attachment_url = #{attachmentUrl},
-        title = #{title},
-        content = #{content},
-        thumbnail_url = #{thumbnailUrl},
-        access_level = #{accessLevel},
-        status = #{status},
-        view_count = #{viewCount},
-        created_at = #{createdAt},
-        updated_at = #{updatedAt},
-        is_notice = #{notice},
-        is_secret = #{secret},
-        old = #{old},
-        category = #{category}
-        WHERE post_id = #{postId}
-    </update>
+        <set>
+            /* 1. HTML에서 넘어온 값들 (값이 있을 때만 업데이트) */
+            <if test="title != null">title = #{title},</if>
+            <if test="content != null">content = #{content},</if>
+            <if test="password != null">password = #{password},</if>
+            <if test="attachmentUrl != null">attachment_url = #{attachmentUrl},</if>
+            <if test="category != null">category = #{category},</if>
+            <if test="status != null">status = #{status},</if>
 
+            /* 2. Service에서 처리된 값들 */
+            <if test="thumbnailUrl != null">thumbnail_url = #{thumbnailUrl},</if>
+            <if test="notice != null">is_notice = #{notice},</if>
+            <if test="secret != null">is_secret = #{secret},</if>
+
+            /* 3. 자동 갱신 (수정 시각은 항상 업데이트) */
+            updated_at = NOW()
+        </set>
+        WHERE
+        post_id = #{postId}
+    </update>
+    <update id="softDeletePost" parameterType="com.abc.boardver56.model.dto.PostDTO">
+        UPDATE post
+        SET
+        status = #{status},
+        updated_at = NOW()
+        WHERE
+        post_id = #{postId}
+    </update>
     <!-- 3. searchPosts 수정 (resultMap 사용 추천) -->
     <select id="searchPosts" resultMap="postResultMap">
         SELECT post_id, board_id, author_id, password, title, content, view_count,

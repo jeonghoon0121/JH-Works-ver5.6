@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/defaultLayout}">
+
+<div layout:fragment="content">
+    <div class="form-container">
+            <!-- 게시글 식별자 (숨김) -->
+            <input type="hidden" th:field="*{postId}">
+
+            <h2 class="form-title">📝 게시글 수정</h2>
+
+            <!-- 작성자 & 비밀번호 -->
+            <div class="form-row">
+                <div class="form-group">
+                    <label>비밀번호 확인</label>
+                    <input type="password" th:field="*{password}" placeholder="비밀번호를 입력하세요" maxlength="20" required>
+                    <small class="form-text">수정을 위해 게시글 비밀번호를 입력해주세요.</small>
+                </div>
+            </div>
+
+            <!-- 카테고리 -->
+            <div class="form-group">
+                <label>카테고리</label>
+                <select th:field="*{category}">
+                    <option th:each="cat : ${#strings.arraySplit('Project,Issue,Java,Springboot,DB,System,Network,test', ',')}"
+                            th:value="${cat}" th:text="${cat}"></option>
+                    <option value="">카테고리 없음</option>
+                </select>
+            </div>
+
+            <!-- 제목 -->
+            <div class="form-group">
+                <label>제목</label>
+                <input type="text" th:field="*{title}" placeholder="제목을 입력하세요" required>
+            </div>
+
+            <!-- 내용 -->
+            <div class="form-group">
+                <label>내용</label>
+                <textarea th:field="*{content}" rows="10" placeholder="내용을 작성하세요"></textarea>
+            </div>
+
+            <!-- 파일 -->
+            <div class="form-group">
+                <label>첨부 파일 변경</label>
+                <!-- 기존에 파일이 있다면 파일명을 보여줌 -->
+                <div th:if="*{attachmentUrl != null and !attachmentUrl.empty}" class="current-file">
+                    <span>현재 파일: </span>
+                    <a th:href="*{attachmentUrl}" th:text="*{attachmentUrl.substring(*{attachmentUrl.lastIndexOf('_') + 1})}" target="_blank">기존파일</a>
+                </div>
+                <input type="file" name="file">
+                <small class="form-text text-muted">새 파일을 선택하면 기존 파일은 삭제되거나 교체됩니다.</small>
+            </div>
+
+            <!-- 버튼 -->
+            <div class="btn-group">
+                <button type="button" class="btn-cancel" onclick="history.back()">취소</button>
+                <button type="submit" class="btn-submit">수정 완료</button>
+            </div>
+        </form>
+    </div>
+</div>
+</html>

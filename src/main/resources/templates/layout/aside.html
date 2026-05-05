@@ -1,34 +1,18 @@
-<!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
-<aside th:fragment="asideFragment">
-    <button th:onclick="|location.href='/post/add'|">글쓰기</button>
-    <button th:onclick="|location.href='/post/update'|">글수정</button>
-    <button th:onclick="|location.href='/post/delete'|">글삭제</button>
+<aside xmlns:th="http://www.thymeleaf.org"
+       th:fragment="asideFragment">
+
+    <a th:href="@{/post/add}" class="btn-action">글쓰기</a>
+    <a th:href="@{/post/update}" class="btn-action">글수정</a>
+    <a th:href="@{/post/delete}" class="btn-action">글삭제</a>
+
     <span class="nav-label">Boards</span>
     <div class="nav-divider"></div>
+
     <div th:if="${boardList != null}" th:each="board : ${boardList}">
-        <button th:onclick="|location.href='/board/' + [[${board.boardId}]]|"
-                th:text="${board.name}">
-        </button>
+        <a th:href="@{/board/{boardId}(boardId=${board.boardId})}" class="btn-action" th:text="${board.name}"></a>
     </div>
-    <button th:onclick="|location.href='/board'|">board</button>
-    <button th:onclick="|location.href='/post'|">post</button>
-    <script>
-        function toggleSidebar() {
-        const sidebar = document.querySelector('aside');
-        sidebar.classList.toggle('mobile-open');
-    }
 
-    // 메뉴 밖을 클릭하면 닫히게 하고 싶을 때 (선택 사항)
-    document.addEventListener('click', function(event) {
-        const sidebar = document.querySelector('aside');
-        const btn = document.querySelector('.hamburger-btn');
+    <a th:href="@{/board}" class="btn-action">board</a>
+    <a th:href="@{/post}" class="btn-action">post</a>
 
-        if (!sidebar.contains(event.target) && !btn.contains(event.target)) {
-            sidebar.classList.remove('mobile-open');
-        }
-    });
-    </script>
 </aside>
-
-</html>

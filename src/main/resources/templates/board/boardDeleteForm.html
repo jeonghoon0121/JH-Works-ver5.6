@@ -1,26 +1,25 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
-<head th:replace="~{layout/defaultLayout :: head}"></head>
-<body>
-<header th:replace="~{layout/defaultLayout :: header}"></header>
+<html xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{layout/defaultLayout :: layout(~{::article})}">
+<head>
+    <title>게시글 작성</title>
+</head>
+<article>
+    <!-- 게시판 삭제 폼 -->
+    <form th:action="@{/post/delete}" th:object="${post}" method="post" class="board-form" onsubmit="return confirm('정말로 삭제하시겠습니까?');">
+        <h2>게시글 삭제</h2>
+        <p style="font-size: 13px; color: #666; margin-bottom: 15px;">삭제된 게시글은 복구할 수 없습니다.</p>
 
-<main>
-    <aside th:replace="~{layout/defaultLayout :: aside}"></aside>
+        <!-- 2. 게시글 번호와 게시판 번호를 hidden으로 전송 -->
+        <input type="number" th:field="*{postId}" />
 
-    <article>
-        <!-- 게시판 삭제 폼 -->
-        <form th:action="@{/board/delete}" method="post" class="board-form" onsubmit="return confirm('정말로 삭제하시겠습니까?');">
-            <h2>게시판 삭제</h2>
-            <p style="font-size: 13px; color: #666; margin-bottom: 15px;">삭제된 게시판은 복구할 수 없습니다.</p>
+        <!-- 3. 권한 확인을 위한 비밀번호 입력 -->
+        <div class="form-group">
+            <label for="password">비밀번호 확인</label>
+            <input type="password" th:field="*{password}" placeholder="비밀번호를 입력하세요" required />
+        </div>
 
-            <label for="boardId">삭제할 게시판 ID</label>
-            <input type="number" id="boardId" name="boardId" placeholder="ID 번호 입력" required />
-
-            <button type="submit" class="btn-delete">게시판 영구 삭제</button>
-        </form>
-    </article>
-</main>
-
-<footer th:replace="~{layout/defaultLayout :: footer}"></footer>
-</body>
+        <button type="submit" class="btn-delete">게시글 삭제하기</button>
+    </form>
+</article>
 </html>

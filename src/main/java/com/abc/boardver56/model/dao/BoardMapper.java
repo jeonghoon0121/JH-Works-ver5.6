@@ -31,6 +31,9 @@ public interface BoardMapper {
     void addPost(PostDTO postDTO);
     void updatePost(PostDTO postDTO);
     void deletePost(PostDTO postDTO);
+    int softDeletePost(PostDTO postDTO);
+
+
 
     // ✅ 페이징된 게시글 조회
     List<PostDTO> findPostsByBoardId(@Param("boardId") int boardId,

@@ -13,12 +13,11 @@
 <aside th:replace="~{layout/aside :: asideFragment}"></aside>
 <main>
 
-    <article>
         <div layout:fragment="content"></div>
-    </article>
 </main>
 
 <footer th:replace="~{layout/footer :: footerFragment}"></footer>
+<script th:src="@{/js/BASE.js}"></script>
 <th:block layout:fragment="script"></th:block>
 </body>
 </html>

@@ -1,0 +1,12 @@
+/* 2. 레이아웃 배선*/
+/*  defaultLayout,aside*/
+.wrapper {
+    display: flex; /* 사이드바와 메인을 가로로 배치 */
+    min-height: calc(100vh - 120px); /* 헤더/푸터 제외 나머지 높이 */
+}
+/*defaultLayout,index*/
+/* 남은 공간을 전부 메인 영역이 차지 */
+#content {
+    flex: 1; /* 남은 공간을 전부 메인 영역이 차지 */
+    padding: 20px;
+}

@@ -13,18 +13,21 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
-@RequiredArgsConstructor // final이 붙은 mapper를 자동으로 생성자 주입해줍니다.
 public class BoardService {
 
     private final BoardMapper mapper;
+
+    public BoardService(BoardMapper mapper) {
+        this.mapper = mapper;
+    }
 
     // ===== Board =====
     public List<BoardDTO> findAllBoards() {
         return mapper.findAllBoards();
     }
 
-    public BoardDTO findOneBoard(int boardId) {
-        return mapper.findOneBoard(boardId);
+    public BoardDTO findOneBoard(BoardDTO boardDTO) {
+        return mapper.findOneBoard(boardDTO);
     }
 
     @Transactional
@@ -155,25 +158,7 @@ public class BoardService {
 
     @Transactional
     public void addPostWithFile(PostDTO postDTO, String clientIp) {
-        // 1. 파일 저장 처리
-        String attachmentUrl = saveFile(postDTO.getFile());
-        if (attachmentUrl != null) {
-            postDTO.setAttachmentUrl(attachmentUrl);
-        }
 
-        // 2. 기타 정보 및 기본값 설정
-        postDTO.setIpHash(clientIp);
-
-        if (postDTO.getStatus() == null) postDTO.setStatus("PUBLISHED");
-        if (postDTO.getNotice() == null) postDTO.setNotice(false);
-        if (postDTO.getSecret() == null) postDTO.setSecret(false);
-        if (postDTO.getThumbnailUrl() == null) postDTO.setThumbnailUrl("");
-        if (postDTO.getAccessLevel() == null) {
-            postDTO.setAccessLevel("0");
-        }
-
-        // 3. 매퍼를 통한 DB 저장
-        mapper.addPost(postDTO);
     }
 
     // ===== Comment =====
@@ -219,4 +204,6 @@ public class BoardService {
     }
 
 
+    public void savePost(PostDTO postDTO) {
+    }
 }

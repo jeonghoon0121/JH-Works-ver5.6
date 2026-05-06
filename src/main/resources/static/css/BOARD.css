@@ -1,0 +1,25 @@
+/* 3. 데이터 출력 유닛 (Board Item) */
+.board-item {
+    background: white;
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    padding: 15px;
+    margin-bottom: 10px;
+    box-shadow: 2px 2px 5px rgba(0,0,0,0.05);
+    transition: transform 0.2s;
+}
+
+.board-item:hover {
+    transform: translateY(-2px); /* 마우스 올렸을 때 살짝 들리는 효과 */
+}
+
+.board-item p {
+    margin: 5px 0;
+    font-size: 0.9rem;
+}
+
+.board-item .board-name {
+    font-weight: bold;
+    font-size: 1.1rem;
+    color: var(--primary-color);
+}

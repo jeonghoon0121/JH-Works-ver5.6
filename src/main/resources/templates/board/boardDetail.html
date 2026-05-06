@@ -2,9 +2,16 @@
 <html xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{layout/defaultLayout}">
+<head>
+    <title th:text="|${board.name} - JH Works|">게시판 리스트</title>
+</head>
 <body>
-<div layout:fragment="content"> <!-- article 대신 layout:fragment 사용 -->
-
+<main layout:fragment="content">
+    <section class="board-container">
+        <!-- 상단 헤더 및 버튼 영역 -->
+        <div class="board-header">
+            <h2 class="board-title" th:text="${board.name}">게시판 이름</h2>
+        </div>
 
         <table class="board-table">
             <thead>
@@ -18,40 +25,44 @@
             </thead>
             <tbody>
             <tr th:each="post : ${postList}">
-
                 <td th:text="${post.postId}"></td>
-
-                <td>
-                    <!-- 카테고리 -->
-                    <span th:if="${post.category != null and post.category != ''}"
+                <td class="title-cell">
+                    <!-- 카테고리 배지 (공백 체크 강화) -->
+                    <span th:if="${post.category != null and !post.category.empty}"
                           th:text="${post.category}" class="badge-category"></span>
 
-                    <!-- 제목 (여기만 링크) -->
+                    <!-- 게시글 제목 링크 -->
                     <a th:href="@{/post/{id}(id=${post.postId})}"
                        th:text="${post.title}"
                        class="post-title-link"></a>
 
-                    <!-- 신규 -->
+                    <!-- 신규 글 표시 -->
                     <span th:if="${!post.old}" class="badge-new">N</span>
                 </td>
-
                 <td>
                     <span class="author-badge" th:text="${post.authorId}"></span>
                 </td>
-
                 <td th:text="${post.viewCount}"></td>
-
                 <td th:text="${#temporals.format(post.createdAt, 'yyyy-MM-dd')}"></td>
             </tr>
+            <!-- 데이터가 없을 때 메시지 -->
+            <tr th:if="${#lists.isEmpty(postList)}">
+                <td colspan="5" class="empty-msg">등록된 게시글이 없습니다.</td>
+            </tr>
             </tbody>
-            </table>
-        <!-- 페이지네이션 -->
-        <div class="pagination-wrapper" th:if="${totalPages > 0}">
+        </table>
+
+        <!-- 페이지네이션 영역 -->
+        <nav class="pagination-wrapper" th:if="${totalPages > 0}">
             <ul class="pagination">
-                <li th:if="${currentPage > 1}">
-                    <a th:href="@{/board/{id}(id=${board.boardId}, page=${currentPage - 1})}" class="page-link">&lt;</a>
+                <!-- 이전 페이지: 1페이지보다 클 때만 링크 활성화 -->
+                <li th:classappend="${currentPage <= 1} ? 'disabled' : ''">
+                    <a th:if="${currentPage > 1}"
+                       th:href="@{/board/{id}(id=${board.boardId}, page=${currentPage - 1})}" class="page-link">&lt;</a>
+                    <span th:if="${currentPage <= 1}" class="page-link">&lt;</span>
                 </li>
 
+                <!-- 페이지 번호 -->
                 <li th:each="pageNum : ${#numbers.sequence(1, totalPages)}">
                     <a th:href="@{/board/{id}(id=${board.boardId}, page=${pageNum})}"
                        th:text="${pageNum}"
@@ -59,12 +70,15 @@
                        th:classappend="${pageNum == currentPage} ? 'active' : ''"></a>
                 </li>
 
-                <li th:if="${currentPage < totalPages}">
-                    <a th:href="@{/board/{id}(id=${board.boardId}, page=${currentPage + 1})}" class="page-link">&gt;</a>
+                <!-- 다음 페이지: 마지막 페이지보다 작을 때만 링크 활성화 -->
+                <li th:classappend="${currentPage >= totalPages} ? 'disabled' : ''">
+                    <a th:if="${currentPage < totalPages}"
+                       th:href="@{/board/{id}(id=${board.boardId}, page=${currentPage + 1})}" class="page-link">&gt;</a>
+                    <span th:if="${currentPage >= totalPages}" class="page-link">&gt;</span>
                 </li>
             </ul>
-
-        </div>
-</div>
+        </nav>
+    </section>
+</main>
 </body>
 </html>

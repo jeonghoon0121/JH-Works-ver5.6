@@ -1,6 +1,3 @@
-<!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
-<!-- 헤더 Fragment 정의 -->
 <header th:fragment="headerFragment">
     <div class="header-left">
         <button class="hamburger-btn" onclick="toggleSidebar()">☰</button>
@@ -9,36 +6,36 @@
 
     <div class="header-center">
         <nav class="main-nav">
+            <!-- 1. 상단 메뉴 글자들 (이 부분만 반복됨) -->
             <div class="nav-item" th:each="menu : ${ {'about', 'features', 'tools', 'dashboard'} }">
                 <a th:href="@{/{path}(path=${menu})}"
                    th:text="${menu == 'about' ? '소개' : (menu == 'features' ? '기능' : (menu == 'tools' ? '도구' : '대시보드'))}"></a>
             </div>
-            <div class="nav-item">
-                <a href="https://github.com/jeonghoon0121/JH-Works-ver5.6" target="_blank">깃허브</a>
-            </div>
+            <div class="nav-item"><a href="https://github.com/...">깃허브</a></div>
 
+            <!-- 2. 통합 메가 메뉴 (반복문 바깥에 위치) -->
             <div class="mega-menu">
                 <div class="mega-grid">
+                    <!-- 소개 섹션 -->
                     <div class="mega-column">
                         <h3>소개</h3>
                         <a th:href="@{/about/intro}">프로젝트 개요</a>
                         <a th:href="@{/about/techStack}">기술 스택</a>
                         <a th:href="@{/about/architecture&DB}">아키텍처</a>
                     </div>
+                    <!-- 기능 섹션 -->
+                    <div class="mega-column">
+                        <h3>기능</h3>
+                        <a th:href="@{/features/auth}">인증</a>
+                        <a th:href="@{/features/board}">게시판</a>
+                    </div>
+                    <!-- 나머지 도구, 대시보드 컬럼들도 여기에 추가 -->
                 </div>
             </div>
         </nav>
     </div>
 
     <div class="header-right">
-        <th:block th:if="${session.loginMember == null}">
-            <button class="btn-login" th:onclick="|location.href='@{/member/login}'|">로그인</button>
-            <button class="btn-join" th:onclick="|location.href='@{/member/register}'|">회원가입</button>
-        </th:block>
-        <th:block th:unless="${session.loginMember == null}">
-            <span class="user-name" th:text="|${session.loginMember.name}님|"></span>
-            <button class="btn-logout" th:onclick="|location.href='@{/member/logout}'|">로그아웃</button>
-        </th:block>
+        <!-- 로그인/로그아웃 버튼 (기존 유지) -->
     </div>
 </header>
-</html>

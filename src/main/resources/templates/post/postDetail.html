@@ -3,9 +3,22 @@
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{layout/defaultLayout}">
 
-<div layout:fragment="content">
+<main layout:fragment="content"> <!-- defaultLayout 구조와 일치시킴 -->
     <div class="post-detail-container">
-        <h1 class="post-title" th:text="${post.title}"></h1>
+
+        <!-- 제목 및 배지 영역 -->
+        <div class="post-header-wrapper">
+            <!-- 카테고리 배지 추가[cite: 7] -->
+            <span th:if="${post.category != null and !post.category.empty}"
+                  th:text="${post.category}" class="badge-category"></span>
+
+            <h1 class="post-title">
+                <span th:text="${post.title}"></span>
+                <!-- 신규 글 배지 추가[cite: 7] -->
+                <span th:if="${!post.old}" class="badge-new" style="vertical-align: middle; margin-left: 5px;">N</span>
+            </h1>
+        </div>
+
         <div class="post-meta">
             <span class="author-badge" th:text="${post.authorId}"></span>
             <span class="date" th:text="${#temporals.format(post.createdAt, 'yyyy-MM-dd HH:mm')}"></span>
@@ -13,11 +26,16 @@
         </div>
 
         <hr class="detail-divider">
+
+        <!-- 게시글 본문 -->
         <div class="post-content" th:text="${post.content}" style="white-space: pre-line; min-height: 150px;"></div>
 
+        <!-- 첨부 파일 (이미지) -->
         <div class="post-attachment" th:if="${post.attachmentUrl}">
-            <h3 style="font-size: 14px; margin-bottom: 10px;">📎 첨부 파일</h3>
-            <img th:src="@{${post.attachmentUrl}}" alt="첨부 이미지" style="max-width:100%; border-radius: 8px;"/>
+            <h3 style="font-size: 14px; margin-bottom: 10px; color: #64748b;">📎 첨부 파일</h3>
+            <!-- 보안 및 추적 방지 에러 완화를 위해 loading="lazy" 추가 -->
+            <img th:src="@{${post.attachmentUrl}}" alt="첨부 이미지"
+                 style="max-width:100%; border-radius: 8px; box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);" loading="lazy"/>
         </div>
 
         <div class="post-footer" style="margin-top: 30px; display: flex; justify-content: space-between; align-items: center;">
@@ -25,17 +43,19 @@
 
             <div class="post-actions">
                 <button class="btn-action" onclick="history.back()">목록</button>
+                <!-- 수정/삭제 버튼[cite: 8] -->
                 <button class="btn-action btn-update" th:onclick="|location.href='/post/update?postId=' + ${post.postId}|">수정</button>
                 <button class="btn-action btn-delete" th:onclick="|location.href='/post/delete?postId=' + ${post.postId}|">삭제</button>
             </div>
         </div>
     </div>
 
-    <!-- 댓글 섹션 -->
+    <!-- 댓글 섹션 (Fragment Inclusion) -->
     <div th:replace="~{fragments/comment :: comment(${post}, ${commentList}, ${comment})}"></div>
-</div>
+</main>
 
 <th:block layout:fragment="script">
+    <!-- 댓글 관련 스크립트 로드[cite: 9] -->
     <script th:src="@{/js/comment.js}"></script>
 </th:block>
 </html>

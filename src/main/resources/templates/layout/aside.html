@@ -1,18 +1,43 @@
-<aside xmlns:th="http://www.thymeleaf.org"
-       th:fragment="asideFragment">
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<aside th:fragment="asideFragment" id="sidebar">
 
-    <a th:href="@{/post/add}" class="btn-action">글쓰기</a>
-    <a th:href="@{/post/update}" class="btn-action">글수정</a>
-    <a th:href="@{/post/delete}" class="btn-action">글삭제</a>
-
-    <span class="nav-label">Boards</span>
-    <div class="nav-divider"></div>
-
-    <div th:if="${boardList != null}" th:each="board : ${boardList}">
-        <a th:href="@{/board/{boardId}(boardId=${board.boardId})}" class="btn-action" th:text="${board.name}"></a>
+    <!-- 1. 주요 액션 영역 -->
+    <span class="nav-label">Actions</span>
+    <div class="action-group mb-20">
+        <a th:href="@{/post/add}" class="btn-action btn-add">글쓰기</a>
+        <a th:href="@{/post/update}" class="btn-action btn-update">글수정</a>
+        <a th:href="@{/post/delete}" class="btn-action btn-delete">글삭제</a>
     </div>
 
-    <a th:href="@{/board}" class="btn-action">board</a>
-    <a th:href="@{/post}" class="btn-action">post</a>
+    <div class="nav-divider"></div>
+
+    <!-- 2. 게시판 목록 영역 -->
+    <span class="nav-label">Boards</span>
+    <nav class="board-list">
+        <!-- 전체 보기 링크 -->
+        <!-- 변경 후: 내장 객체 대신 컨트롤러에서 보낸 변수 사용 -->
+        <a th:href="@{/post}"
+           class="btn-link"
+           th:classappend="${currentUri == '/post'} ? 'active' : ''">
+            전체 포스트
+        </a>
+
+        <!-- 동적 게시판 목록 -->
+        <th:block th:unless="${#lists.isEmpty(boardList)}">
+            <a th:each="board : ${boardList}"
+               th:href="@{/board/{id}(id=${board.boardId})}"
+               class="btn-link"
+               th:classappend="${currentBoardId == board.boardId} ? 'active' : ''"
+               th:text="${board.name}">게시판 명칭</a>
+        </th:block>
+    </nav>
+
+    <div class="nav-divider"></div>
+
+    <!-- 3. 시스템 링크 영역 -->
+    <span class="nav-label">System</span>
+    <a th:href="@{/board}" class="btn-link">게시판 관리</a>
 
 </aside>
+</html>

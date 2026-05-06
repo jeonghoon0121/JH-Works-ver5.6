@@ -1,0 +1,23 @@
+<th:block th:fragment="commonFields">
+    <!-- 카테고리 -->
+    <div class="form-group">
+        <label>카테고리</label>
+        <select th:field="*{category}">
+            <option th:each="cat : ${#strings.arraySplit('Project,Issue,Java,Springboot,DB,System,Network,test', ',')}"
+                    th:value="${cat}" th:text="${cat}"></option>
+            <option value="">카테고리 없음</option>
+        </select>
+    </div>
+
+    <!-- 제목 -->
+    <div class="form-group">
+        <label>제목</label>
+        <input type="text" th:field="*{title}" placeholder="제목을 입력하세요" required>
+    </div>
+
+    <!-- 내용 -->
+    <div class="form-group">
+        <label>내용</label>
+        <textarea th:field="*{content}" rows="10" placeholder="내용을 작성하세요"></textarea>
+    </div>
+</th:block>

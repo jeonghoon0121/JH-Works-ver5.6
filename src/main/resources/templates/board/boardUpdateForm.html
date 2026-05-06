@@ -1,35 +1,50 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
-      th:replace="~{layout/defaultLayout :: layout(~{::article})}">
-<head>
-    <title>게시글 작성</title>
-</head>
-<article>
-    <form th:action="@{/board/update}" th:object="${board}" method="post" class="board-form">
-        <h2>게시판 정보 수정</h2>
-        <p class="board-desc">수정할 게시판의 ID를 입력하고 새로운 정보를 입력하세요.</p>
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/defaultLayout}">
 
-        <div class="form-group" style="background-color: #f8fafc; padding: 15px; border-radius: 8px; border: 1px dashed #cbd5e1;">
-            <label for="boardId">수정 대상 게시판 ID (필수)</label>
-            <input type="number" th:field="*{boardId}" id="boardId" placeholder="예: 1" required />
-        </div>
+<main layout:fragment="content">
+    <div class="form-container">
+        <!-- 수정 로직 수행을 위한 post 매핑 및 파일 업로드 설정[cite: 8] -->
+        <form th:action="@{/post/update}" th:object="${post}" method="post" enctype="multipart/form-data" class="board-form">
 
-        <div class="form-group">
-            <label for="name">변경할 이름</label>
-            <input type="text" th:field="*{name}" id="name" placeholder="새로운 게시판 이름" />
-        </div>
+            <h2 class="form-title">📝 게시글 수정</h2>
+            <p class="form-desc">내용을 수정한 후, 본인 확인을 위해 비밀번호를 입력해주세요.</p>
 
-        <div class="form-group">
-            <label for="description">변경할 설명</label>
-            <input type="text" th:field="*{description}" id="description" placeholder="새로운 게시판 설명" />
-        </div>
+            <!-- 1. 식별자 보호: 삭제 폼과 동일하게 postId를 hidden으로 처리 -->
+            <input type="hidden" th:field="*{postId}">
 
-        <div class="checkbox-group">
-            <label><input type="checkbox" th:field="*{userActive}" /> 사용자 활성 여부</label>
-            <label><input type="checkbox" th:field="*{adminActive}" /> 관리자 활성 여부</label>
-        </div>
+            <!-- 2. 공통 필드: 작성 페이지와 공유하는 핵심 입력란[cite: 6] -->
+            <th:block th:replace="~{post/postFormFields :: commonFields}"></th:block>
 
-        <button type="submit" class="btn-submit">정보 업데이트 하기</button>
-    </form>
-</article>
+            <!-- 3. 파일 변경: 기존 파일이 있을 경우 시각적으로 표시[cite: 8] -->
+            <div class="form-group file-group">
+                <label>첨부 파일 변경</label>
+                <div th:if="*{attachmentUrl != null and !attachmentUrl.empty}" class="current-file-info">
+                    <span class="file-label">기존 파일:</span>
+                    <a th:href="*{attachmentUrl}"
+                       th:text="*{attachmentUrl.contains('_') ? attachmentUrl.substring(attachmentUrl.lastIndexOf('_') + 1) : attachmentUrl}"
+                       target="_blank" class="file-link">파일명</a>
+                </div>
+                <input type="file" name="file" class="file-input">
+                <small class="help-text">새 파일을 선택하면 기존 파일은 교체됩니다.</small>
+            </div>
+
+            <!-- 4. 본인 확인: 삭제 폼의 비밀번호 확인 로직을 그대로 가져옴 -->
+            <div class="form-group password-group">
+                <label for="password">비밀번호 확인</label>
+                <input type="password" th:field="*{password}"
+                       id="password" placeholder="기본 비밀번호 입력"
+                       class="form-control" required>
+                <small class="help-text">수정 권한 확인을 위해 게시글 비밀번호가 필요합니다.</small>
+            </div>
+
+            <!-- 5. 버튼 그룹: 삭제 폼과 동일한 취소/확인 구조 -->
+            <div class="btn-group">
+                <button type="button" class="btn-cancel" onclick="history.back()">취소</button>
+                <button type="submit" class="btn-submit" onclick="return confirm('수정된 내용을 저장하시겠습니까?')">수정 완료</button>
+            </div>
+        </form>
+    </div>
+</main>
 </html>

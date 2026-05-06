@@ -11,7 +11,7 @@ import java.util.List;
 public interface BoardMapper {
     // ===== Board =====
     List<BoardDTO> findAllBoards();
-    BoardDTO findOneBoard(@Param("boardId") int boardId);
+    BoardDTO findOneBoard(BoardDTO boardDTO);
 
     void addBoard(BoardDTO boardDTO);
     void updateBoard(BoardDTO boardDTO);

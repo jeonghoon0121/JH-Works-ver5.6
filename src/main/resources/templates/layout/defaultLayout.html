@@ -1,23 +1,33 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org"
-      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>JH Works</title>
+    <title layout:title-pattern="JH Works | $CONTENT_TITLE">JH Works</title>
+
+    <!-- 1. 공통 기초 -->
     <link rel="stylesheet" th:href="@{/css/BASE.css}">
-    <th:block layout:fragment="css"></th:block>
+    <!-- 2. 레이아웃 뼈대 -->
+    <link rel="stylesheet" th:href="@{/css/LAYOUT.css}">
+    <!-- 3. 게시판 부품 (필요한 페이지에서만 불러오거나 레이아웃에서 통합 관리) -->
+    <link rel="stylesheet" th:href="@{/css/BOARD.css}">
 </head>
 <body>
-<header th:replace="~{layout/header :: headerFragment}"></header>
-<aside th:replace="~{layout/aside :: asideFragment}"></aside>
-<main>
 
+<!-- 헤더, 사이드바, 푸터는 유지 (조립식 구조) -->
+<div th:replace="~{layout/header :: headerFragment}"></div>
+
+<div class="wrapper">
+    <div th:replace="~{layout/aside :: asideFragment}"></div>
+
+    <main id="content">
+        <!-- 불필요한 중첩 div 제거 -->
         <div layout:fragment="content"></div>
-</main>
+    </main>
+</div>
 
-<footer th:replace="~{layout/footer :: footerFragment}"></footer>
+<div th:replace="~{layout/footer :: footerFragment}"></div>
+
+<!-- 내 서버의 JS만 사용 -->
 <script th:src="@{/js/BASE.js}"></script>
-<th:block layout:fragment="script"></th:block>
 </body>
 </html>
